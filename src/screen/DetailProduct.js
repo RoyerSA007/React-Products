@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, SafeAreaView, ScrollView } from "react-native";
+import { CarritoContext } from "../context/carritoContext";
 
 export default function DetailProducts({ route, navigation }) {
     const { products } = route.params;
     const [esFavorito, setEsFavorito] = useState(false);
+    const { addToCarrito } = useContext(CarritoContext);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -22,7 +24,9 @@ export default function DetailProducts({ route, navigation }) {
             <Text style={styles.rating}>⭐ {products.rating.rate} ({products.rating.count} reviews)</Text>
             <View style={styles.buttonsContainer}>
                 <TouchableOpacity style={styles.button}
-                    onPress={() => navigation.navigate("Carrito")} >
+                    onPress={() => { 
+                      addToCarrito(products);
+                      navigation.navigate("Carrito");}} >
                     <Text style={styles.buttonText}>Agregar al carrito</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
